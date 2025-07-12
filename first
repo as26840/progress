@@ -1,0 +1,142 @@
+
+
+
+\documentclass{article}
+
+\usepackage[nonatbib, final]{neurips}
+\usepackage[numbers]{natbib}
+
+\makeatletter
+\renewcommand{\@noticestring}{
+  \centering
+  
+}
+\makeatother
+
+\input{extra_pkgs}
+
+\usepackage{physics}
+\usepackage{mathtools}
+\DeclarePairedDelimiter\p{(}{)}
+\DeclarePairedDelimiter\n{|}{|}
+\DeclarePairedDelimiter\B{[}{]}
+
+\title{}
+
+\author{
+    Bojian Zheng \\
+    University of Toronto \\
+    \href{mailto:bojian@cs.toronto.edu}{bojian@cs.toronto.edu}
+}
+
+\begin{document}
+
+\maketitle
+
+
+\section{Introduction}
+
+Introduce slimming and the need for it in LLMs.
+
+The difficulty of using methods used in older generation of CNNs and neural nets on LLMs. It is not a
+straightforward task.
+
+Move to structured pruning -> layer pruning.
+
+Nevertheless motivate the slimming methodology.
+
+
+\section{Related Works}
+
+Training free LLM methods: Cosine, early exit, early exit (self attention), and Shapely.
+
+Training based LLM methods. Cosine + healing, early exits + healing, Shapely + healing.
+
+
+\section{Methodology}
+
+\subsection{ViT-Slimming}
+ 
+Paraphrase from paper. Make note of their slight modification to loss.
+
+
+\subsection{Layer-wise Pruning}
+
+Adapt pruning to just layers. Motivate this decision by the notable redundancy observed across the depths of the
+neural network.
+
+
+\subsection{Adapting to LLMs}
+
+Explain adapting it to llms. The cost of using with LLMs and motivation sparse training whilst post-training 
+with LoRA.
+
+
+\subsection{Post-training LLMs}
+
+write a small paragraph on the state of post training llms.
+
+
+\section{Evaluation and Results}
+
+
+
+
+\subsection{Datasets}
+
+Post-training on C4 and Nemotron.
+
+Evaluation on MMLU and wikitext PPL (MMLU Pro, E2H, LLM-Harness and PPL on Wikitext-2, openwebtext and 
+bookcorpus.)
+
+
+\subsection{Baselines}
+
+Learning-free methods: LLM slimming (Ours), Cosine distance, Shapely estimates (loss), Early exit, Early exit 
+(self-attention)
+
+Learning-based methods: LLM slimming (Ours), with healing -> Cosine distance, Shapely estimates (PPL), Early 
+exit, Early exit (self-attention)
+
+
+\subsection{Results}
+
+Results on MMLU
+
+PPL results on wikitext-2
+
+
+\subsubsection{Note}
+
+Don't include any mention of layer dropout.
+
+
+\subsubsection{Rough Work}
+
+NemotronToWikitext
+
+searchlayernodel1sigmoid_initones trained for 50 epochs performs best. The performance falls off at layer dropout of 0, 0.2 and 0.5.
+
+qloraqwen20.5b_layerdrop0_mlpw0.0001_mhsaw0.0001_searchlayernodel1sigmoidinitones_nemotron_r8_lr1e-05_epochs50_gradAccum4/pruning_performance_wikitext-2.
+
+Wikitext to wikitext performs better than nemotron to wikitext. So there is definitely an element of overfitting. 
+
+Layer dropout seems to work 
+
+
+NemotronToOpenwebtext
+
+Nemotron to owt does better than owt to owt at low and mid levels of sparsity. owt to owt seems to perform better at higher levels of sparsity, but this is irrelevant.
+
+
+\section{Conclusion}
+
+Tradeoff between overfitting to target task (generalization) vs generalization capabilities. Adapted to LLMs.
+
+
+
+
+% \bibliographystyle{plainnat}
+% \bibliography{bibliography}
+
+\end{document}
